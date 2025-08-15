@@ -16,7 +16,7 @@ export default function UangKasExport() {
 
   const handleDownload = () => {
     if (!tahun) return alert("Pilih tahun dulu!");
-    window.location.href = `http://localhost:5000/api/uangkas/export?year=${tahun}`;
+    window.location.href = `https://pengurusupm-server.onrender.com/api/uangkas/export?year=${tahun}`;
   };
 
   return (
@@ -47,4 +47,5 @@ export default function UangKasExport() {
     </div>
   );
 }
+
 
