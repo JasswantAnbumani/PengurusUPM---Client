@@ -6,7 +6,7 @@ export default function UangKasExport() {
   const [tahunList, setTahunList] = useState([]);
 
   useEffect(() => {
-    axios.get("http://localhost:5000/api/uangkas/years")
+    axios.get("https://pengurusupm-server.onrender.com/api/uangkas/years")
       .then(res => {
         setTahunList(res.data);
         if (res.data.length) setTahun(res.data[0]); // Pilih tahun terbaru default
@@ -47,3 +47,4 @@ export default function UangKasExport() {
     </div>
   );
 }
+
