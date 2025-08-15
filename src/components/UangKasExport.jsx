@@ -6,12 +6,13 @@ export default function UangKasExport() {
   const [tahunList, setTahunList] = useState([]);
 
   useEffect(() => {
-    axios.get("https://pengurusupm-server.onrender.com/api/uangkas/years")
-      .then(res => {
+    axios
+      .get("https://pengurusupm-server.onrender.com/api/uangkas/years")
+      .then((res) => {
         setTahunList(res.data);
         if (res.data.length) setTahun(res.data[0]); // Pilih tahun terbaru default
       })
-      .catch(err => console.error(err));
+      .catch((err) => console.error(err));
   }, []);
 
   const handleDownload = () => {
@@ -26,7 +27,9 @@ export default function UangKasExport() {
       <label style={{ marginRight: "10px" }}>Pilih Tahun: </label>
       <select value={tahun} onChange={(e) => setTahun(e.target.value)}>
         {tahunList.map((t, i) => (
-          <option key={i} value={t}>{t}</option>
+          <option key={i} value={t}>
+            {t}
+          </option>
         ))}
       </select>
 
@@ -39,7 +42,7 @@ export default function UangKasExport() {
           border: "none",
           cursor: "pointer",
           borderRadius: "5px",
-          marginLeft: "10px"
+          marginLeft: "10px",
         }}
       >
         📥 Download Excel
@@ -47,5 +50,3 @@ export default function UangKasExport() {
     </div>
   );
 }
-
-

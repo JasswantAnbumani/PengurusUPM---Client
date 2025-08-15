@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "../index.css";
 import "../styles/Home.css";
+import { motion } from "framer-motion"; // npm install framer-motion
 
 export default function Home() {
   const [judul, setJudul] = useState("");
@@ -35,33 +36,38 @@ export default function Home() {
   };
 
   return (
-    <div className="pengumuman-container">
-      <h1 className="pengumuman-title">📢 Upload Pengumuman</h1>
-      <form onSubmit={handleSubmit} className="pengumuman-card">
-        <label>Judul:</label>
-        <input
-          type="text"
-          value={judul}
-          onChange={(e) => setJudul(e.target.value)}
-          placeholder="Masukkan judul pengumuman"
-          required
-        />
+    <motion.div
+      initial={{ y: 20, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.5 }}
+    >
+      <div className="pengumuman-container">
+        <h1 className="pengumuman-title">📢 Upload Pengumuman</h1>
+        <form onSubmit={handleSubmit} className="pengumuman-card">
+          <label>Judul:</label>
+          <input
+            type="text"
+            value={judul}
+            onChange={(e) => setJudul(e.target.value)}
+            placeholder="Masukkan judul pengumuman"
+            required
+          />
 
-        <label>Isi Pengumuman:</label>
-        <textarea
-          value={isi}
-          onChange={(e) => setIsi(e.target.value)}
-          placeholder="Masukkan isi pengumuman"
-          required
-        />
+          <label>Isi Pengumuman:</label>
+          <textarea
+            value={isi}
+            onChange={(e) => setIsi(e.target.value)}
+            placeholder="Masukkan isi pengumuman"
+            required
+          />
 
-        <button type="submit" disabled={loading}>
-          {loading ? "Mengirim..." : "Kirim Pengumuman"}
-        </button>
-      </form>
+          <button type="submit" disabled={loading}>
+            {loading ? "Mengirim..." : "Kirim Pengumuman"}
+          </button>
+        </form>
 
-      {status && <p className="pengumuman-status">{status}</p>}
-    </div>
+        {status && <p className="pengumuman-status">{status}</p>}
+      </div>
+    </motion.div>
   );
 }
-
