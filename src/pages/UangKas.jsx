@@ -1,0 +1,177 @@
+import React, { useState, useEffect } from "react";
+import UangKasExport from "../components/UangKasExport";
+import "../index.css";
+
+export default function UangKas() {
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [anggota, setAnggota] = useState([]);
+  const [uangKas, setUangKas] = useState([]);
+  const [form, setForm] = useState({ user: "", pass: "" });
+  const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
+
+  const months = [
+    "JAN",
+    "FEB",
+    "MAR",
+    "APR",
+    "MEI",
+    "JUN",
+    "JUL",
+    "AGU",
+    "SEP",
+    "OKT",
+    "NOV",
+    "DES",
+  ];
+
+  const handleDownload = () => {
+    window.open("http://localhost:5000/api/uangkas/export", "_blank");
+  };
+
+  const handleLogin = () => {
+    if (form.user === "kas" && form.pass === "123") {
+      setLoggedIn(true);
+    } else {
+      alert("Login gagal!");
+    }
+  };
+
+  // Ambil data anggota + kas
+  useEffect(() => {
+    if (loggedIn) {
+      fetch("http://localhost:5000/api/anggota")
+        .then((res) => res.json())
+        .then((data) => setAnggota(data));
+
+      fetchUangKas(selectedYear);
+    }
+  }, [loggedIn, selectedYear]);
+
+  const fetchUangKas = (year) => {
+    fetch(`http://localhost:5000/api/uangkas?year=${year}`)
+      .then((res) => res.json())
+      .then((data) => setUangKas(data))
+      .catch((err) => console.error(err));
+  };
+
+  const togglePayment = (chessClubId, monthIndex) => {
+    const monthNum = monthIndex + 1;
+    const newStatus = !isPaid(chessClubId, monthNum);
+
+    fetch("http://localhost:5000/api/uangkas", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        chessClubId: String(chessClubId), // kirim chessClubId, bukan _id
+        year: selectedYear,
+        month: monthNum,
+        status: newStatus ? "Lunas" : "Belum",
+      }),
+    })
+      .then((res) => {
+        if (!res.ok) throw new Error("Gagal update kas");
+        return res.json();
+      })
+      .then(() => fetchUangKas(selectedYear))
+      .catch((err) => console.error(err));
+  };
+
+  const isPaid = (anggotaId, monthNum) => {
+    return uangKas.some(
+      (d) =>
+        String(d.chessClubId) === String(anggotaId) &&
+        d.month === monthNum &&
+        d.year === selectedYear &&
+        d.status === "Lunas"
+    );
+  };
+
+  const totalKas = uangKas.filter((d) => d.status === "Lunas").length * 10000;
+
+  if (!loggedIn) {
+    return (
+      <div className="login-container">
+        <h1>Login Akses Uang Kas</h1>
+        <input
+          placeholder="Username"
+          onChange={(e) => setForm({ ...form, user: e.target.value })}
+        />
+        <input
+          placeholder="Password"
+          type="password"
+          onChange={(e) => setForm({ ...form, pass: e.target.value })}
+        />
+        <button onClick={handleLogin}>Login</button>
+      </div>
+    );
+  }
+
+  return (
+    <div className="uangkas-container">
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
+        <h1>Uang Kas Tahun {selectedYear}</h1>
+        <div className="total-kas">
+          💰 Total: Rp {totalKas.toLocaleString("id-ID")}
+        </div>
+      </div>
+
+      <UangKasExport />
+
+      {/* Pilih tahun */}
+      <select
+        className="year-select"
+        value={selectedYear}
+        onChange={(e) => setSelectedYear(parseInt(e.target.value))}
+      >
+        {Array.from(
+          { length: 5 },
+          (_, i) => new Date().getFullYear() - 2 + i
+        ).map((year) => (
+          <option key={year} value={year}>
+            {year}
+          </option>
+        ))}
+      </select>
+
+      {/* Tabel uang kas */}
+      <div className="table-responsive">
+        <table className="uangkas-table">
+          <thead>
+            <tr>
+              <th>Nama</th>
+              {months.map((m, idx) => (
+                <th key={idx}>{m}</th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {anggota.map((a, i) => (
+              <tr key={i}>
+                <td>{a.nama}</td>
+                {months.map((m, idx) => {
+                  const monthNum = idx + 1;
+                  const paid = isPaid(a.chessClubId, monthNum);
+                  return (
+                    <td
+                      key={idx}
+                      className={`kas-cell ${paid ? "paid" : "unpaid"}`}
+                      onClick={() => togglePayment(a.chessClubId, idx)}
+                    >
+                      {paid ? "✅" : "❌"}
+                    </td>
+                  );
+                })}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+}

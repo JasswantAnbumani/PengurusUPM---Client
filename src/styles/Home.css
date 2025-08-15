@@ -1,0 +1,83 @@
+.pengumuman-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px 20px;
+  min-height: 100vh;
+  background: transparent;
+}
+
+.pengumuman-title {
+  font-size: 28px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: #ffffff;
+}
+
+.pengumuman-card {
+  background: #1b1a1a;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  width: 100%;
+  max-width: 500px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.pengumuman-card label {
+  font-weight: bold;
+  font-size: 14px;
+  color: #ffffff;
+}
+
+.pengumuman-card input,
+.pengumuman-card textarea {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ced4da;
+  outline: none;
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+
+.pengumuman-card input:focus,
+.pengumuman-card textarea:focus {
+  border-color: #000000;
+  box-shadow: 0 0 0 2px rgba(77, 171, 247, 0.25);
+}
+
+.pengumuman-card textarea {
+  resize: none;
+  min-height: 100px;
+}
+
+.pengumuman-card button {
+  background: white;
+  color: black;
+  border: none;
+  padding: 12px;
+  font-size: 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.pengumuman-card button:hover {
+  background: rgba(255, 255, 255, 0.1);;
+  color: #ffffff;
+}
+
+.pengumuman-card button:disabled {
+  background: #a5d8ff;
+  cursor: not-allowed;
+}
+
+.pengumuman-status {
+  margin-top: 15px;
+  font-weight: bold;
+  font-size: 14px;
+}
