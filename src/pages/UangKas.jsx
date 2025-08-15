@@ -25,7 +25,7 @@ export default function UangKas() {
   ];
 
   const handleDownload = () => {
-    window.open("http://localhost:5000/api/uangkas/export", "_blank");
+    window.open("https://pengurusupm-server.onrender.com/api/uangkas/export", "_blank");
   };
 
   const handleLogin = () => {
@@ -39,7 +39,7 @@ export default function UangKas() {
   // Ambil data anggota + kas
   useEffect(() => {
     if (loggedIn) {
-      fetch("http://localhost:5000/api/anggota")
+      fetch("https://pengurusupm-server.onrender.com/api/anggota")
         .then((res) => res.json())
         .then((data) => setAnggota(data));
 
@@ -48,7 +48,7 @@ export default function UangKas() {
   }, [loggedIn, selectedYear]);
 
   const fetchUangKas = (year) => {
-    fetch(`http://localhost:5000/api/uangkas?year=${year}`)
+    fetch(`https://pengurusupm-server.onrender.com/api/uangkas?year=${year}`)
       .then((res) => res.json())
       .then((data) => setUangKas(data))
       .catch((err) => console.error(err));
@@ -58,7 +58,7 @@ export default function UangKas() {
     const monthNum = monthIndex + 1;
     const newStatus = !isPaid(chessClubId, monthNum);
 
-    fetch("http://localhost:5000/api/uangkas", {
+    fetch("https://pengurusupm-server.onrender.com/api/uangkas", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -175,3 +175,4 @@ export default function UangKas() {
     </div>
   );
 }
+
