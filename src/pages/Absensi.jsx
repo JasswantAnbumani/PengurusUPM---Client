@@ -20,7 +20,7 @@ export default function Absensi() {
 
   useEffect(() => {
     if (loggedIn) {
-      fetch('http://localhost:5000/api/absensi/anggota')
+      fetch('https://pengurusupm-server.onrender.com/api/absensi/anggota')
         .then(res => res.json())
         .then(data => {
           setAnggota(data);
@@ -46,7 +46,7 @@ export default function Absensi() {
       status: absensi[a._id]
     }));
 
-    fetch('http://localhost:5000/api/absensi', {
+    fetch('https://pengurusupm-server.onrender.com/api/absensi', {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ tanggal, data })
@@ -60,7 +60,7 @@ export default function Absensi() {
 
   const loadRekap = (tgl) => {
     if (!tgl) return alert("Pilih tanggal dulu sebelum lihat rekap!");
-    fetch(`http://localhost:5000/api/absensi/${tgl}`)
+    fetch(`https://pengurusupm-server.onrender.com/api/absensi/${tgl}`)
       .then(res => res.json())
       .then(data => setRekap(data));
   };
@@ -131,3 +131,4 @@ export default function Absensi() {
     </div>
   );
 }
+
