@@ -7,7 +7,7 @@ export default function Home() {
   const [isi, setIsi] = useState("");
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState("");
-  const API_URL = "http://localhost:5000/api/pengumuman"; // ganti sesuai API backend
+  const API_URL = "https://pengurusupm-server.onrender.com/api/pengumuman"; // ganti sesuai API backend
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -64,3 +64,4 @@ export default function Home() {
     </div>
   );
 }
+
