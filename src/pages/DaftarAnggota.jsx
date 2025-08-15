@@ -15,7 +15,7 @@ export default function DaftarAnggota() {
   }, [loggedIn]);
 
   const fetchData = () => {
-    fetch('http://localhost:5000/api/anggota')
+    fetch('https://pengurusupm-server.onrender.com/api/anggota')
       .then(res => res.json())
       .then(data => setAnggota(data))
       .catch(err => console.error(err));
@@ -23,7 +23,7 @@ export default function DaftarAnggota() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    fetch('http://localhost:5000/api/anggota', {
+    fetch('https://pengurusupm-server.onrender.com/api/anggota', {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(form)
@@ -122,3 +122,4 @@ export default function DaftarAnggota() {
     </div>
   );
 }
+
